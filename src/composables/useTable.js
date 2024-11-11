@@ -186,10 +186,10 @@ export const useTable = () => {
       $q.dialog({
         component: defineAsyncComponent(() => import("/src/pages/components/ExtraPortionDialog.vue")),
         componentProps: {
-          portions: portionSet.portions || [],
+          portions: portionSet?.portions || [],
           product: {
             ...product,
-            extras: product.extras ? product.extras.split(',') : [],
+            extras: product?.extras ? product.extras.split(',') : [],
           },
           extras: extraSet ? extraSet.extras : [],
         }
@@ -277,6 +277,7 @@ export const useTable = () => {
       $q.dialog({
         title: i18n.global.t('base.requiredPassword'),
         message: i18n.global.t('base.requirePasswordMessage'),
+        position: 'top',
         prompt: {
           model: '',
           type: 'password',

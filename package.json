@@ -2,7 +2,7 @@
   "name": "inspector-new",
   "version": "0.0.1",
   "description": "Ruby Inspector",
-  "productName": "Pos Application",
+  "productName": "Inspector Application",
   "author": "Vepa <56221612+vepamirzayev@users.noreply.github.com>",
   "private": true,
   "scripts": {

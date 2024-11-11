@@ -246,7 +246,11 @@ export const useInspectorStore = defineStore('inspector', {
       })
     },
     async fetchPortionSets() {
-      await posPanelApi.get(`/api/PortionSet/GetAll`).then(res => {
+      await posPanelApi.get(`/api/PortionSet/GetAll`,{
+        params:{
+          Take:999
+        }
+      }).then(res => {
         this.portionSets = res.data.data;
       }).catch(err => {
         fireNotify('error', i18n.t('fetch_error'), err.response.data.message);

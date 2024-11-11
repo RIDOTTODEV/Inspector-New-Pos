@@ -36,5 +36,6 @@ export default {
     requiredPassword: 'Password is required',
     requirePasswordMessage: 'Please enter your password to continue',
     orderItemCancelled: 'Order item cancelled',
+    orderList: 'Order List',
   }
 }

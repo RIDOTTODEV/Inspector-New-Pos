@@ -36,5 +36,6 @@ export default {
     requiredPassword: 'Şifre zorunludur',
     requirePasswordMessage: 'Devam etmek için şifrenizi giriniz',
     orderItemCancelled: 'Sipariş ürünü iptal edildi',
+    orderList: 'Sipariş Listesi',
   }
 }

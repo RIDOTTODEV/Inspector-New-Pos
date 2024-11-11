@@ -165,7 +165,7 @@ const {onClickTable} = useInspector();
                         <q-item-section side>
                           <div class="row flex text-subtitle2 text-dark">
                             <q-icon name="o_loyalty" size="20px" class="q-mr-sm"/>
-                            <span class="q-mr-xs">{{ $t('base.orderHistory') }}</span> (<span
+                            <span class="q-mr-xs">{{ $t('base.orderList') }}</span> (<span
                             class="text-bold">{{ order.products.length }}</span>)
                           </div>
                         </q-item-section>
