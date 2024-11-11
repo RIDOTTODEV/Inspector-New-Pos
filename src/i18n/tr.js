@@ -37,5 +37,6 @@ export default {
     requirePasswordMessage: 'Devam etmek için şifrenizi giriniz',
     orderItemCancelled: 'Sipariş ürünü iptal edildi',
     orderList: 'Sipariş Listesi',
+    noTablePlayers: 'Masa da oyuncu yok',
   }
 }

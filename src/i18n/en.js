@@ -37,5 +37,6 @@ export default {
     requirePasswordMessage: 'Please enter your password to continue',
     orderItemCancelled: 'Order item cancelled',
     orderList: 'Order List',
+    noTablePlayers: 'No players at the table',
   }
 }

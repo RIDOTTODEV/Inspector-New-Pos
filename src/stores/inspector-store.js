@@ -218,6 +218,9 @@ export const useInspectorStore = defineStore('inspector', {
     getExtraSet: (state) => (id) => {
       return state.extraSets.find(extraSet => extraSet.id === id)
     },
+    showCancelOrderBtn: (state) => (orderTagId) => {
+      return state.terminal.restore?.includes(orderTagId);
+    }
   },
 
   actions: {
@@ -242,7 +245,7 @@ export const useInspectorStore = defineStore('inspector', {
       await posPanelApi.get(`/api/Terminal/GetTerminalMenu?uid=${this.terminal?.uid}`).then(res => {
         this.terminalMenu = res.data;
       }).catch(err => {
-        fireNotify('error', i18n.t('fetch_error'), err.response.data.message);
+        fireNotify('error', i18n.global.t('fetch_error'), err.response.data.message);
       })
     },
     async fetchPortionSets() {
@@ -320,11 +323,16 @@ export const useInspectorStore = defineStore('inspector', {
       return await posPanelApi.get('/api/Order/GetAll', {params})
     },
     async cancelOrderDetail(params) {
+
       return await posPanelApi.post('/api/Order/UpdateOrderDetailStatus', params).then(res => {
         fireNotify(i18n.global.t('base.orderItemCancelled'),'cancelled','bottom-right', 1500, 'positive')
         return res
 
       })
+    },
+    setSelectedInspector(inspector) {
+      this.selectedInspector = inspector;
+      LocalStorage.setItem('latestUsedInspector', inspector);
     }
   }
 })

@@ -6,7 +6,7 @@ const routes = [
     children: [
       /********** product definitions **********/
       { path: '', name:'dashboard', component: () => import('pages/IndexPage.vue'), meta:{groupName:'index',requiredPermission:'Pos.DashBoard.ShowList'}, },
-      { path: 'table/:tableId', name:'table', component: () => import('pages/TablePage.vue'), meta:{groupName:'table',requiredPermission:'Pos.Table.ShowList'},},
+      { path: 'table', name:'table', component: () => import('pages/TablePage.vue'), meta:{groupName:'table',requiredPermission:'Pos.Table.ShowList'},},
     ]
   },
 

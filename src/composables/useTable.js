@@ -21,7 +21,7 @@ export const useTable = () => {
     terminal,
     posSettings,
     inspectors,
-
+    showCancelOrderBtn,
   } = storeToRefs(inspectorStore);
 
   const playerOrderTab = ref('newOrder')
@@ -272,83 +272,85 @@ export const useTable = () => {
       playerOrders.value = res.data.data
     })
   }
-  const onClickCancelOrder = (orderItem) => {
-    if (posSettings.value?.inspectorOrderDeletePassword && posSettings.value?.inspectorOrderDeletePassword.toString().length > 0) {
-      $q.dialog({
-        title: i18n.global.t('base.requiredPassword'),
-        message: i18n.global.t('base.requirePasswordMessage'),
-        position: 'top',
-        prompt: {
-          model: '',
-          type: 'password',
-          isValid: val => val.length > 0,
-          outlined: true,
-          errorMessage: i18n.global.t('base.requiredField', {fieldName: i18n.global.t('base.requiredPassword')}),
-          color: 'dark'
-        },
+  const onClickCancelOrder = async (orderItem) => {
+    if (terminal.value.askPasswordRestoring.includes(orderItem?.orderTagId)){
+      if (posSettings.value?.inspectorOrderDeletePassword && posSettings.value?.inspectorOrderDeletePassword.toString().length > 0) {
+        $q.dialog({
+          title: i18n.global.t('base.requiredPassword'),
+          message: i18n.global.t('base.requirePasswordMessage'),
+          position: 'top',
+          prompt: {
+            model: '',
+            type: 'password',
+            isValid: val => val.length > 0,
+            outlined: true,
+            errorMessage: i18n.global.t('base.requiredField', {fieldName: i18n.global.t('base.requiredPassword')}),
+            color: 'dark'
+          },
 
-        persistent: true,
-        ok: {
-          label: i18n.global.t('base.save'),
-          color: 'dark',
-          flat: true,
-          icon: 'save',
-          focus: true,
-          noCaps: true
-        },
-        cancel: {
-          label: i18n.global.t('base.cancel'),
-          color: 'dark',
-          flat: true,
-          icon: 'cancel',
-          noCaps: true
-        }
+          persistent: true,
+          ok: {
+            label: i18n.global.t('base.save'),
+            color: 'dark',
+            flat: true,
+            icon: 'save',
+            focus: true,
+            noCaps: true
+          },
+          cancel: {
+            label: i18n.global.t('base.cancel'),
+            color: 'dark',
+            flat: true,
+            icon: 'cancel',
+            noCaps: true
+          }
 
-      }).onOk(async (password) => {
-        if (password === posSettings.value.inspectorOrderDeletePassword) {
-          await inspectorStore.cancelOrderDetail({
-            orderDetailId: orderItem.id,
-            status: 'Cancelled'
-          })
-          await getPlayerOrders(selectedPlayer.value)
-        } else {
-          $q.notify({
-            type: 'negative',
-            message: 'Wrong password'
-          })
-        }
+        }).onOk(async (password) => {
+          if (password === posSettings.value.inspectorOrderDeletePassword) {
+            await inspectorStore.cancelOrderDetail({
+              orderDetailId: orderItem.id,
+              status: 'Cancelled'
+            })
+            await getPlayerOrders(selectedPlayer.value)
+          } else {
+            $q.notify({
+              type: 'negative',
+              message: 'Wrong password'
+            })
+          }
+        })
+      }
+    } else {
+      await inspectorStore.cancelOrderDetail({
+        orderDetailId: orderItem.id,
+        status: 'Cancelled'
       })
+      await getPlayerOrders(selectedPlayer.value)
     }
-
-    // async orderCancel(orderDetailId) {
-    //   if (this.$store.state.terminalSettings.password !== null && this.$store.state.terminalSettings.password.toString().length > 0) {
-    //     this.$modal.show(ConfirmPassword, {orderDetailId}, {height: "20%", width: "20%"});
-    //   } else {
-    //     await this.pos.fetch.post(this.pos.orderCancel, {orderDetailId: orderDetailId, status: 'Cancelled'})
-    //       .then(res => {
-    //         this.$notify({
-    //           title: this.$t('notify.success.title'),
-    //           text: this.$t('notify.success.complete'),
-    //           type: 'success'
-    //         })
-    //       })
-    //       .finally(() => {
-    //       });
-    //     await this.init()
-    //   }
-    //
-    // },
   }
   onMounted(async () => {
     initializeMenu()
     inspectorStore.initLatestUsedTables()
-    if (route.params.tableId) {
-      const table = latestUsedTables.value.find(t => +t.tableId === +route.params.tableId)
+    if (route.query.tableId) {
+      const table = latestUsedTables.value.find(t => +t.tableId === +route.query.tableId)
       if (table) {
         selectedTable.value = table
         await inspectorStore.fetchTablePlayers(table.tableId)
         order.value.tableId = table?.tableId
         order.value.tableName = table?.tableName
+      }
+    }
+    if (route.query.inspectorName || route.query.inspectorId){
+      const inspector = inspectors.value.find(inspector => inspector.id === +route.query.inspectorId || inspector.name === route.query.inspectorName)
+      if (inspector) {
+        inspectorStore.setSelectedInspector(inspector)
+      }
+    }
+    if (route.query.playerId || route.query.playerName) {
+      const player = currentTablePlayers.value.find(player => +player.uyeNo === +route.query.playerId)
+      if (player) {
+        selectedPlayer.value = player
+        await onSelectedPlayer(player)
       }
     }
   })
@@ -387,6 +389,7 @@ export const useTable = () => {
     playerOrderTab,
     inspectors,
     showInspectorSelectError,
+    showCancelOrderBtn,
     onClickCategory,
     onClickBack,
     onClickFavorite,

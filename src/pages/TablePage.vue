@@ -3,6 +3,7 @@ import PlayersCard from "components/common/PlayersCard.vue";
 import {useTable} from "src/composables/useTable";
 
 const {
+  showCancelOrderBtn,
   selectedTable,
   getSelectedInspector,
   latestUsedTables,
@@ -130,9 +131,18 @@ const {onClickTable} = useInspector();
           </div>
         </div>
       </q-card-section>
-      <q-card-section class="q-mt-sm  q-pa-xs  menuBottomShadow headerMenuBar">
+      <q-card-section class="q-mt-sm  q-pa-xs  menuBottomShadow headerMenuBar" v-if="currentTablePlayers?.length >0">
         <players-card :selected-player="selectedPlayer" :players="currentTablePlayers"
                       @select-player="player => onSelectedPlayer(player)"/>
+
+      </q-card-section>
+      <q-card-section v-if="currentTablePlayers?.length === 0">
+        <div class="row flex flex-center  " style="height: 300px">
+          <div class="text-subtitle1 flex items-center">
+            <q-icon name="o_info" size="2rem" class="q-mr-sm"/>
+            {{$t('base.noTablePlayers')}}...
+          </div>
+        </div>
       </q-card-section>
       <q-card-section class="q-pa-none q-mt-sm" v-if="selectedPlayer">
         <div class="row">
@@ -271,7 +281,7 @@ const {onClickTable} = useInspector();
                               <div class="text-subtitle1 text-bold">X{{ p.quantity }}</div>
                             </div>
                             <div class="col-1 flex content-center justify-end">
-                              <q-btn icon="o_delete_forever" flat :disabled="p.status !== 'New'" name="" @click="onClickCancelOrder(p)" color="negative"
+                              <q-btn v-if="showCancelOrderBtn(p?.orderTagId)" icon="o_delete_forever" flat :disabled="p.status !== 'New'" name="" @click="onClickCancelOrder(p)" color="negative"
                                        class="q-ml-sm cursor-pointer"/>
                             </div>
                           </div>

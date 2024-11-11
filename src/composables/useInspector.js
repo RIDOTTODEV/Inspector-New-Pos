@@ -9,7 +9,7 @@ import {i18n} from "boot/i18n";
 export const useInspector = () => {
   const $q = useQuasar();
   const inspectorStore = useInspectorStore();
-  const {tables, inspectors, selectedTable, selectedInspector} = storeToRefs(inspectorStore);
+  const {tables, inspectors, selectedTable, selectedInspector,selectedPlayer} = storeToRefs(inspectorStore);
   const sortByTable = ref(''); // byTableName,byCurrency,byGameType
   const isAscending = ref(true);
   const router = useRouter();
@@ -34,7 +34,8 @@ export const useInspector = () => {
       selectedTable.value = {...table};
       inspectorStore.setLatestUsedTables(table);
       await inspectorStore.fetchTablePlayers(table.tableId);
-      await router.push({name: 'table', params: {tableId: table.tableId}});
+      await router.push({name: 'table', query: {tableId: table.tableId}});
+      selectedPlayer.value = null;
     }
   }
 
