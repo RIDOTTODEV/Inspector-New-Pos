@@ -1,0 +1,40 @@
+// This is just an example,
+// so you can safely delete all default props below
+
+export default {
+  menus: {
+    dashboard: 'Dashboard',
+  },
+  base:{
+    selectInspector: 'Select Inspector',
+    tableName: 'Table Name',
+    currency: 'Currency',
+    gameType: 'Game Type',
+    refresh: 'Refresh',
+    pleaseSelectInspector: 'Please select an inspector!',
+    inspector: 'Inspector',
+    clearTable: 'Clear Tables',
+    time:'Time',
+    back:'Back',
+    favorites:'Favorites',
+    orders:'Orders',
+    next:'Next',
+    products:'Products',
+    newOrderList:'New Order List',
+    orderHistory:'Order History',
+    portions:'Portions',
+    cancel:'Cancel',
+    save:'Save',
+    completeOrder:'Complete Order',
+    loading:'Loading',
+    orderCreated:'Order Created',
+    orderNotCreated:'Order Not Created',
+    requiredField:'{fieldName} is required',
+    portion:'Portion',
+    newOrder: 'New Order',
+    oldOrders: 'Old Orders',
+    requiredPassword: 'Password is required',
+    requirePasswordMessage: 'Please enter your password to continue',
+    orderItemCancelled: 'Order item cancelled',
+  }
+}

@@ -1,0 +1,109 @@
+name: ci
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+      -
+        name : Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'yarn'
+#      -
+#        name: Cache node modules
+#        id: cache-npm
+#        uses: actions/cache@v3
+#        env:
+#          cache-name: cache-node-modules
+#        with:
+#          path: node_modules
+#          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+#          restore-keys: |
+#            ${{ runner.os }}-build-${{ env.cache-name }}-
+#            ${{ runner.os }}-build-
+#            ${{ runner.os }}-
+      - name: Install dependencies
+        run: yarn install
+      -
+        name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          # list of Docker images to use as base name for tags
+          images: |
+            ghcr.io/ridottodev/Inspector-New-Pos
+          # generate Docker tags based on the following events/attributes
+          tags: |
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+          flavor: |
+            latest=false
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      -
+        name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      -
+        name: Build and push Development
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          build-args:
+            casino=development
+          platforms: linux/amd64 #,linux/arm64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}-development
+          labels: ${{ steps.meta.outputs.labels }}-development
+
+      - name: Build and push Lefkosa
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          build-args:
+            casino=lefkosa
+          platforms: linux/amd64 #,linux/arm64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}-lefkosa
+          labels: ${{ steps.meta.outputs.labels }}-lefkosa
+#
+#      - name: Build and push Girne
+#        uses: docker/build-push-action@v2
+#        with:
+#          context: .
+#          build-args:
+#            casino=girne
+#          platforms: linux/amd64 #,linux/arm64
+#          push: true
+#          tags: ${{ steps.meta.outputs.tags }}-girne
+#          labels: ${{ steps.meta.outputs.labels }}-girne
+#
+#      - name: Build and push Saray
+#        uses: docker/build-push-action@v2
+#        with:
+#          context: .
+#          build-args:
+#            casino=saray
+#          platforms: linux/amd64 #,linux/arm64
+#          push: true
+#          tags: ${{ steps.meta.outputs.tags }}-saray
+#          labels: ${{ steps.meta.outputs.labels }}-saray
+
