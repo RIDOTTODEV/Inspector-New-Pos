@@ -241,6 +241,7 @@ export const useTable = () => {
     $q.loading.show({
       message: i18n.global.t('base.loading'),
     })
+
     await inspectorStore.createOrder({...order.value}).finally(() => $q.loading.hide())
     order.value.products = []
     await getPlayerOrders({...selectedPlayer.value})
@@ -347,13 +348,19 @@ export const useTable = () => {
         await inspectorStore.fetchTablePlayers(table.tableId)
         order.value.tableId = table?.tableId
         order.value.tableName = table?.tableName
-        order.value.terminalId = terminal.value?.id
-        order.value.TerminalName = terminal.value?.name
       }
     }
   })
   watch(() => terminalMenu.value, () => {
     initializeMenu()
+  })
+  watch(() => terminal.value, () => {
+    order.value.terminalId = terminal.value?.id
+    order.value.TerminalName = terminal.value?.name
+  })
+
+  watch(() => getSelectedInspector.value, () => {
+    order.value.orderedByFullName = getSelectedInspector.value?.name || ''
   })
 
   return {
