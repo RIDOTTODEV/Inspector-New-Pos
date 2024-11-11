@@ -241,8 +241,6 @@ export const useTable = () => {
     $q.loading.show({
       message: i18n.global.t('base.loading'),
     })
-    console.log("order.value", order.value)
-    return
     await inspectorStore.createOrder({...order.value}).finally(() => $q.loading.hide())
     order.value.products = []
     await getPlayerOrders({...selectedPlayer.value})
