@@ -15,7 +15,7 @@
                   filled
                   dense
                   class="full-width"
-                  use-input
+
                   v-model="selectedInspector"
                   clearable
                   :placeholder="selectedInspector === null ? $t('base.selectInspector') :''"

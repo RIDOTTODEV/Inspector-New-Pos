@@ -49,7 +49,7 @@ const {onClickTable} = useInspector();
     <q-card flat class="bg-transparent">
       <q-card-section class="q-pa-none menuTopBorder menuBottomShadow headerMenuBar">
         <div class="row">
-          <div class=" col-3 no-wrap flex items-center content-center">
+          <div class=" col-3 no-wrap   items-center content-center">
             <div class="row  no-wrap flex items-center content-center">
               <q-btn
                 flat
@@ -76,7 +76,7 @@ const {onClickTable} = useInspector();
                 filled
                 dense
                 class="full-width"
-                use-input
+
                 v-model="selectedInspector"
                 clearable
                 :placeholder="selectedInspector === null ? $t('base.selectInspector') :''"
