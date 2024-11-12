@@ -51,32 +51,26 @@ const emits = defineEmits(['selectPlayer'])
         fit="cover"
         style="height: 100px!important; width: 190px!important;"
       >
-        <div class="absolute-bottom  " style="padding: 0!important;">
-          <div class="text-subtitle1 text-bold text-center">
+
+      </q-img>
+      <div class="row    ">
+        <div class="text-subtitle2 col-12 text-center">
+          {{ player?.adSoyad }}
+        </div>
+        <div class="col-6">
+          <div class="text-subtitle2 text-center">
             #{{ player?.uyeNo }}
           </div>
-          <div class="text-subtitle2 text-bold text-center">
-            {{ player?.adSoyad }}
+        </div>
+        <div class="col-6">
+          <div class="text-subtitle2 text-center">
+            Avg: <span class="q-ml-sm">{{ player?.avgBet }}</span>
           </div>
         </div>
-      </q-img>
-      <div class="row flex flex-center">
-        <div class="text-subtitle2 text-bold">
-          Avg:
-        </div>
-        <div class="text-subtitle2   q-ml-md">
-          {{ player?.avgBet }}
+        <div class="text-subtitle2 col-12 text-center text-bold">
+          {{ $t('base.time') }}: <span class="q-ml-sm"> {{ date.formatDate(player?.timeIn, 'DD.MM.YYYY HH:mm') }}</span>
         </div>
       </div>
-      <div class="row flex flex-center">
-        <div class="text-subtitle2 text-bold">
-          {{ $t('base.time') }}:
-        </div>
-        <div class="text-subtitle2   q-ml-md">
-          {{ date.formatDate(player?.timeIn, 'DD.MM.YYYY HH:mm') }}
-        </div>
-      </div>
-
     </swiper-slide>
 
   </swiper>
@@ -146,6 +140,7 @@ const emits = defineEmits(['selectPlayer'])
     -webkit-animation-timing-function: ease-out;
     animation-timing-function: ease-out;
     background-color: red;
+
   }
   10% {
     -webkit-transform: scale(.91);

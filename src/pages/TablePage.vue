@@ -114,7 +114,7 @@ const {onClickTable} = useInspector();
                   :text-color="selectedTable?.tableId === item.tableId ? 'white':'dark'"
                   round
                   size="70px"
-                  class="q-ma-sm cursor-pointer"
+                  class="q-ma-sm cursor-pointer text-center"
                   v-ripple
                   @click="onClickTable(item)"
                 >

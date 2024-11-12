@@ -38,5 +38,8 @@ export default {
     orderItemCancelled: 'Sipariş ürünü iptal edildi',
     orderList: 'Sipariş Listesi',
     noTablePlayers: 'Masa da oyuncu yok',
+    ok: 'Tamam',
+    password: 'Şifre',
+    wrongPassword: 'Yanlış şişfre girdiniz',
   }
 }

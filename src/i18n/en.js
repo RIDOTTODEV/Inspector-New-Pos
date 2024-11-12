@@ -38,5 +38,8 @@ export default {
     orderItemCancelled: 'Order item cancelled',
     orderList: 'Order List',
     noTablePlayers: 'No players at the table',
+    ok: 'Ok',
+    password: 'Password',
+    wrongPassword: 'You entered the wrong password',
   }
 }

@@ -276,37 +276,14 @@ export const useTable = () => {
     if (terminal.value.askPasswordRestoring.includes(orderItem?.orderTagId)){
       if (posSettings.value?.inspectorOrderDeletePassword && posSettings.value?.inspectorOrderDeletePassword.toString().length > 0) {
         $q.dialog({
-          title: i18n.global.t('base.requiredPassword'),
-          message: i18n.global.t('base.requirePasswordMessage'),
-          position: 'top',
-          prompt: {
-            model: '',
-            type: 'password',
-            isValid: val => val.length > 0,
-            outlined: true,
-            errorMessage: i18n.global.t('base.requiredField', {fieldName: i18n.global.t('base.requiredPassword')}),
-            color: 'dark'
+          component: defineAsyncComponent(() => import("/src/pages/components/PasswordDialog.vue")),
+          componentProps: {
+            password: posSettings.value.inspectorOrderDeletePassword,
           },
-
           persistent: true,
-          ok: {
-            label: i18n.global.t('base.save'),
-            color: 'dark',
-            flat: true,
-            icon: 'save',
-            focus: true,
-            noCaps: true
-          },
-          cancel: {
-            label: i18n.global.t('base.cancel'),
-            color: 'dark',
-            flat: true,
-            icon: 'cancel',
-            noCaps: true
-          }
-
-        }).onOk(async (password) => {
-          if (password === posSettings.value.inspectorOrderDeletePassword) {
+          position: 'top',
+        }).onOk(async (values) => {
+          if (values.password === posSettings.value.inspectorOrderDeletePassword) {
             await inspectorStore.cancelOrderDetail({
               orderDetailId: orderItem.id,
               status: 'Cancelled'
@@ -315,7 +292,9 @@ export const useTable = () => {
           } else {
             $q.notify({
               type: 'negative',
-              message: 'Wrong password'
+              message: i18n.global.t('base.wrongPassword'),
+              position: 'top-right',
+              timeout: 2000,
             })
           }
         })
