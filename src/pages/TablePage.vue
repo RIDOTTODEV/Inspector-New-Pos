@@ -49,89 +49,87 @@ const {onClickTable} = useInspector();
     <q-card flat class="bg-transparent">
       <q-card-section class="q-pa-none menuTopBorder menuBottomShadow headerMenuBar">
         <div class="row">
-          <div class="col-1 flex items-center">
-            <q-btn
-              flat
-              padding="10px"
-              class="q-ml-md"
-              to="/"
-            >
-              <template v-slot:default>
-                <svg style="width: 55px" v-ripple aria-hidden="true" focusable="false" data-prefix="fas"
-                     data-icon="reply-all" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
-                     class="svg-inline--fa fa-reply-all fa-w-18 fa-3x    ">
-                  <path fill="currentColor"
-                        d="M136.309 189.836L312.313 37.851C327.72 24.546 352 35.348 352 56.015v82.763c129.182 10.231 224 52.212 224 183.548 0 61.441-39.582 122.309-83.333 154.132-13.653 9.931-33.111-2.533-28.077-18.631 38.512-123.162-3.922-169.482-112.59-182.015v84.175c0 20.701-24.3 31.453-39.687 18.164L136.309 226.164c-11.071-9.561-11.086-26.753 0-36.328zm-128 36.328L184.313 378.15C199.7 391.439 224 380.687 224 359.986v-15.818l-108.606-93.785A55.96 55.96 0 0 1 96 207.998a55.953 55.953 0 0 1 19.393-42.38L224 71.832V56.015c0-20.667-24.28-31.469-39.687-18.164L8.309 189.836c-11.086 9.575-11.071 26.767 0 36.328z"
-                        class=""></path>
-                </svg>
-              </template>
-            </q-btn>
-          </div>
-          <div class="col-2 flex items-center">
-            <div class="text-subtitle1 full-width">
-              <div class="col-md-3 col-sm-4 col-xs-6 row content-center">
-                <q-select
-                  :options="inspectors"
-                  emit-value
-                  map-options
-                  option-value="staffId"
-                  option-label="name"
-                  filled
-                  dense
-                  class="full-width"
-                  use-input
-                  v-model="selectedInspector"
-                  clearable
-                  :placeholder="selectedInspector === null ? $t('base.selectInspector') :''"
-                  :error="selectedInspector === null && showInspectorSelectError"
-                  :error-message="$t('base.selectInspector')"
-                  hide-bottom-space
-                  color="dark"
-                />
-              </div>
+          <div class=" col-3 no-wrap flex items-center content-center">
+            <div class="row  no-wrap flex items-center content-center">
+              <q-btn
+                flat
+                padding="10px"
+                class="q-mr-xs q-ml-xs"
+                to="/"
+              >
+                <template v-slot:default>
+                  <svg style="width: 55px" v-ripple aria-hidden="true" focusable="false" data-prefix="fas"
+                       data-icon="reply-all" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                       class="svg-inline--fa fa-reply-all fa-w-18 fa-3x    ">
+                    <path fill="currentColor"
+                          d="M136.309 189.836L312.313 37.851C327.72 24.546 352 35.348 352 56.015v82.763c129.182 10.231 224 52.212 224 183.548 0 61.441-39.582 122.309-83.333 154.132-13.653 9.931-33.111-2.533-28.077-18.631 38.512-123.162-3.922-169.482-112.59-182.015v84.175c0 20.701-24.3 31.453-39.687 18.164L136.309 226.164c-11.071-9.561-11.086-26.753 0-36.328zm-128 36.328L184.313 378.15C199.7 391.439 224 380.687 224 359.986v-15.818l-108.606-93.785A55.96 55.96 0 0 1 96 207.998a55.953 55.953 0 0 1 19.393-42.38L224 71.832V56.015c0-20.667-24.28-31.469-39.687-18.164L8.309 189.836c-11.086 9.575-11.071 26.767 0 36.328z"
+                          class=""></path>
+                  </svg>
+                </template>
+              </q-btn>
+              <q-select
+                :options="inspectors"
+                emit-value
+                map-options
+                option-value="staffId"
+                option-label="name"
+                filled
+                dense
+                class="full-width"
+                use-input
+                v-model="selectedInspector"
+                clearable
+                :placeholder="selectedInspector === null ? $t('base.selectInspector') :''"
+                :error="selectedInspector === null && showInspectorSelectError"
+                :error-message="$t('base.selectInspector')"
+                hide-bottom-space
+                color="dark"
+                input-class="no-wrap"
+              />
             </div>
           </div>
-          <div class="col flex content-center justify-between">
-            <div class="row flex content-center">
-              <q-btn
-                :label="$t('base.clearTable')"
-                unelevated
-                flat
-                square
-                size="18px"
-                no-caps
-                @click="onClickClearTable"
-              />
+          <div class="col row flex content-center justify-between">
+            <div class="col flex content-center">
               <q-virtual-scroll
                 :items="latestUsedTables"
                 virtual-scroll-horizontal
                 v-slot="{ item, index }"
               >
-
+                <q-avatar
+                  v-if="index === 0"
+                  color="grey-2"
+                  round
+                  size="60px"
+                  class="q-ma-sm cursor-pointer"
+                  v-ripple
+                  @click="onClickClearTable"
+                >
+                  <q-icon name="o_delete_forever" color="negative" />
+                </q-avatar>
                 <q-avatar
                   :key="index"
                   :color="selectedTable?.tableId === item.tableId ? 'dark' : 'grey-2'"
                   :text-color="selectedTable?.tableId === item.tableId ? 'white':'dark'"
                   round
-                  size="70px"
-                  class="q-ma-sm cursor-pointer text-center"
+                  size="60px"
+                  class="q-ma-sm cursor-pointer"
                   v-ripple
                   @click="onClickTable(item)"
                 >
-                  <div class="text-subtitle1 text-bold">
+                  <div class="text-subtitle1 text-center text-bold">
                     {{ item.tableName }}
                   </div>
                 </q-avatar>
               </q-virtual-scroll>
             </div>
-            <div class="row flex content-center">
+            <div class="col-2 flex content-center">
               <dark-mode/>
               <languages/>
             </div>
           </div>
         </div>
       </q-card-section>
-      <q-card-section class="q-mt-sm  q-pa-xs  menuBottomShadow headerMenuBar" v-if="currentTablePlayers?.length >0">
+      <q-card-section class="q-mt-xs  q-pa-xs  menuBottomShadow headerMenuBar" v-if="currentTablePlayers?.length >0">
         <players-card :selected-player="selectedPlayer" :players="currentTablePlayers"
                       @select-player="player => onSelectedPlayer(player)"/>
 
@@ -144,7 +142,7 @@ const {onClickTable} = useInspector();
           </div>
         </div>
       </q-card-section>
-      <q-card-section class="q-pa-none q-mt-sm" v-if="selectedPlayer">
+      <q-card-section class="q-pa-none  " v-if="selectedPlayer">
         <div class="row">
           <div class="col-4 q-pa-sm">
             <q-card flat>
@@ -223,7 +221,7 @@ const {onClickTable} = useInspector();
                             </q-item-section>
                             <q-item-section @click="onSelectOrderItem(item,index)">
                               <div class="text-h6">
-                                {{ textCapitalize(item.productName) }}
+                                {{ item.productName }}
                               </div>
                               <div class="row flex justify-start" style="margin-top: -5px">
                                 <div class="text-subtitle2  q-pr-md" v-if="item.portionSetId && item.portion">
@@ -251,7 +249,7 @@ const {onClickTable} = useInspector();
                         @click="completeOrder"
                         no-caps square color="dark" icon="save" :label="$t('base.completeOrder')" unelevated
                         class="full-width  absolute-bottom"
-                        size="20px" style="border-bottom: 3px solid #e6e6e6"/>
+                        size="20px" style="border-bottom: 13px solid #e6e6e6 "/>
                     </q-card-section>
                   </q-card>
                 </q-tab-panel>
@@ -294,7 +292,6 @@ const {onClickTable} = useInspector();
 
               </q-tab-panels>
             </q-card>
-
           </div>
           <div class="col-3 q-pa-sm">
             <q-card flat square>

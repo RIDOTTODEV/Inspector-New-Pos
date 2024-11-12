@@ -1,7 +1,7 @@
 import {useInspectorStore} from "stores/inspector-store";
 import {storeToRefs} from "pinia";
 import {defineAsyncComponent, onMounted, ref, watch} from "vue";
-import {useQuasar, date} from "quasar";
+import {useQuasar, date, LocalStorage} from "quasar";
 import {useRoute, useRouter} from "vue-router";
 import {i18n} from "boot/i18n";
 
@@ -50,9 +50,12 @@ export const useTable = () => {
   const categoryHistory = ref([])
   const products = ref([])
   const fetchFavoriteProduct = ref(false)
+
+
   const onClickClearTable = async () => {
     inspectorStore.selectedTable = null;
     inspectorStore.latestUsedTables = [];
+    LocalStorage.removeItem('latestUsedTables')
     await router.push({name: 'dashboard'});
   }
   const initializeMenu = () => {

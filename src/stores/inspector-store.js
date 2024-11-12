@@ -287,7 +287,8 @@ export const useInspectorStore = defineStore('inspector', {
        }
       const checkTableAlreadyExist = this.latestUsedTables.find(t => t.tableId === table.tableId);
       if (!checkTableAlreadyExist) {
-        this.latestUsedTables.push(table);
+        // unshift to add to the beginning of the array
+        this.latestUsedTables.unshift(table);
         LocalStorage.setItem('latestUsedTables', this.latestUsedTables);
       }
       if (this.selectedInspector !== null){

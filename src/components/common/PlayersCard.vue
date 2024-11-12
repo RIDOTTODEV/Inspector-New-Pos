@@ -29,7 +29,7 @@ const emits = defineEmits(['selectPlayer'])
 <template>
   <swiper
     :slidesPerView="8"
-    :spaceBetween="30"
+    :spaceBetween="15"
     :freeMode="true"
     :pagination="{
       clickable: true,
@@ -47,13 +47,12 @@ const emits = defineEmits(['selectPlayer'])
     >
       <q-img
         :src="'data:image/jpeg;base64,'+player.resim"
-        class="full-width"
         fit="cover"
-        style="height: 100px!important; width: 190px!important;"
+        height="130px"
       >
 
       </q-img>
-      <div class="row    ">
+      <div class="row ">
         <div class="text-subtitle2 col-12 text-center">
           {{ player?.adSoyad }}
         </div>
