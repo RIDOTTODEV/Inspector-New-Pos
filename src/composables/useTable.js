@@ -11,6 +11,7 @@ export const useTable = () => {
   const $q = useQuasar();
   const inspectorStore = useInspectorStore();
   const {
+    tables,
     selectedTable,
     selectedInspector,
     getSelectedInspector,
@@ -276,7 +277,7 @@ export const useTable = () => {
     })
   }
   const onClickCancelOrder = async (orderItem) => {
-    if (terminal.value.askPasswordRestoring.includes(orderItem?.orderTagId)){
+    if (terminal.value.askPasswordRestoring.includes(orderItem?.orderTagId)) {
       if (posSettings.value?.inspectorOrderDeletePassword && posSettings.value?.inspectorOrderDeletePassword.toString().length > 0) {
         $q.dialog({
           component: defineAsyncComponent(() => import("/src/pages/components/PasswordDialog.vue")),
@@ -310,11 +311,20 @@ export const useTable = () => {
       await getPlayerOrders(selectedPlayer.value)
     }
   }
+  const initializeSetup = async () => {
+    if (tables.value.length === 0 || inspectors.value.length === 0 || terminalMenu.value.length === 0) {
+      await inspectorStore.fetchPosSettings();
+      await inspectorStore.fetchInspectors();
+      await inspectorStore.fetchTables();
+    }
+
+  }
   onMounted(async () => {
+    await initializeSetup()
     initializeMenu()
     inspectorStore.initLatestUsedTables()
     if (route.query.tableId) {
-      const table = latestUsedTables.value.find(t => +t.tableId === +route.query.tableId)
+      const table = tables.value.find(t => +t.tableId === +route.query.tableId)
       if (table) {
         selectedTable.value = table
         await inspectorStore.fetchTablePlayers(table.tableId)
@@ -322,7 +332,7 @@ export const useTable = () => {
         order.value.tableName = table?.tableName
       }
     }
-    if (route.query.inspectorName || route.query.inspectorId){
+    if (route.query.inspectorName || route.query.inspectorId) {
       const inspector = inspectors.value.find(inspector => inspector.id === +route.query.inspectorId || inspector.name === route.query.inspectorName)
       if (inspector) {
         inspectorStore.setSelectedInspector(inspector)

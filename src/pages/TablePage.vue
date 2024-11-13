@@ -5,7 +5,6 @@ import {useTable} from "src/composables/useTable";
 const {
   showCancelOrderBtn,
   selectedTable,
-  getSelectedInspector,
   latestUsedTables,
   currentTablePlayers,
   selectedPlayer,
@@ -47,9 +46,9 @@ const {onClickTable} = useInspector();
 <template>
   <q-page>
     <q-card flat class="bg-transparent">
-      <q-card-section class="q-pa-none menuTopBorder menuBottomShadow headerMenuBar">
+      <q-card-section class="q-pa-none   menuTopBorder menuBottomShadow headerMenuBar">
         <div class="row">
-          <div class=" col-3 no-wrap   items-center content-center">
+          <div class=" col-3 no-wrap items-center content-center">
             <div class="row  no-wrap flex items-center content-center">
               <q-btn
                 flat
@@ -104,7 +103,7 @@ const {onClickTable} = useInspector();
                   v-ripple
                   @click="onClickClearTable"
                 >
-                  <q-icon name="o_delete_forever" color="negative" />
+                  <q-icon name="o_delete_forever" color="negative"/>
                 </q-avatar>
                 <q-avatar
                   :key="index"
@@ -132,13 +131,12 @@ const {onClickTable} = useInspector();
       <q-card-section class="q-mt-xs  q-pa-xs  menuBottomShadow headerMenuBar" v-if="currentTablePlayers?.length >0">
         <players-card :selected-player="selectedPlayer" :players="currentTablePlayers"
                       @select-player="player => onSelectedPlayer(player)"/>
-
       </q-card-section>
       <q-card-section v-if="currentTablePlayers?.length === 0">
         <div class="row flex flex-center  " style="height: 300px">
           <div class="text-subtitle1 flex items-center">
             <q-icon name="o_info" size="2rem" class="q-mr-sm"/>
-            {{$t('base.noTablePlayers')}}...
+            {{ $t('base.noTablePlayers') }}...
           </div>
         </div>
       </q-card-section>
@@ -258,7 +256,9 @@ const {onClickTable} = useInspector();
                   <q-card flat square>
                     <q-card-section class="q-pa-none">
                       <q-scroll-area style="height: calc(100vh - 350px)" class="q-pl-sm q-pr-sm">
-                        <div :class="$q.dark.isActive ? 'q-ma-sm bg-grey-10 full-width row' : 'q-ma-sm bg-grey-1 full-width row'" v-for="(o,i) in playerOrders" :key="i">
+                        <div
+                          :class="$q.dark.isActive ? 'q-ma-sm bg-grey-10 full-width row' : 'q-ma-sm bg-grey-1 full-width row'"
+                          v-for="(o,i) in playerOrders" :key="i">
                           <div class="col-12 row" v-for="(p,k) in o.products" :key="k">
                             <div class="col-10">
                               <div class="row">
@@ -270,7 +270,9 @@ const {onClickTable} = useInspector();
                                 <div class="text-subtitle2 ">{{ p.productName }}</div>
                                 <span class="q-ml-sm" v-if="p.portion"> {{ p.portion }}</span>
                                 <span class="q-ml-sm" v-if="p.extra"> {{ p.extra }}</span>
-                                <q-badge v-if="p?.status === 'New'" color="warning" text-color="dark" class="q-ml-sm">{{ p.status }}</q-badge>
+                                <q-badge v-if="p?.status === 'New'" color="warning" text-color="dark" class="q-ml-sm">
+                                  {{ p.status }}
+                                </q-badge>
                               </div>
 
 
@@ -279,12 +281,14 @@ const {onClickTable} = useInspector();
                               <div class="text-subtitle1 text-bold">X{{ p.quantity }}</div>
                             </div>
                             <div class="col-1 flex content-center justify-end">
-                              <q-btn v-if="showCancelOrderBtn(p?.orderTagId)" icon="o_delete_forever" flat :disabled="p.status !== 'New'" name="" @click="onClickCancelOrder(p)" color="negative"
-                                       class="q-ml-sm cursor-pointer"/>
+                              <q-btn v-if="showCancelOrderBtn(p?.orderTagId)" icon="o_delete_forever" flat
+                                     :disabled="p.status !== 'New'" name="" @click="onClickCancelOrder(p)"
+                                     color="negative"
+                                     class="q-ml-sm cursor-pointer"/>
                             </div>
                           </div>
                         </div>
-                      </q-scroll-area  >
+                      </q-scroll-area>
 
                     </q-card-section>
                   </q-card>

@@ -117,23 +117,7 @@
       </q-card-section>
       <q-card-section>
         <q-scroll-area style="height: calc(100vh - 175px)">
-<!--          <div class="row">-->
-<!--            <div class="col-2 q-pa-sm" v-for="(table, index) in sortedTables" :key="index">-->
-<!--              <q-btn-->
-<!--                no-caps-->
-<!--                @click="onClickTable(table)"-->
-<!--                :label="table?.tableName"-->
-<!--                unelevated-->
-<!--                class="full-width"-->
-<!--                :color="$q.dark.isActive ? 'grey-9' : 'grey-9'"-->
-<!--                 push-->
-<!--                size="18px"-->
-<!--              />-->
-<!--            </div>-->
-<!--          </div>-->
-
         <q-avatar
-
           v-for="(table, index) in sortedTables"
           :key="index"
           :color="$q.dark.isActive ? 'grey-9' : 'grey-9'"
