@@ -77,7 +77,7 @@ const emits = defineEmits(['selectPlayer'])
 
 <style scoped>
 .currentPlayer {
-  border: 1px solid red;
+  border: 1px solid #22ff00;
   border-radius: 5px;
   padding: 10px
 }
@@ -138,7 +138,7 @@ const emits = defineEmits(['selectPlayer'])
     transform-origin: center center;
     -webkit-animation-timing-function: ease-out;
     animation-timing-function: ease-out;
-    background-color: red;
+    background-color: #1aff00;
 
   }
   10% {
