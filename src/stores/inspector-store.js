@@ -18,6 +18,7 @@ export const useInspectorStore = defineStore('inspector', {
     terminalMenu: [],
     portionSets: [],
     extraSets: [],
+    posTables:[]
   }),
 
   getters: {
@@ -32,6 +33,9 @@ export const useInspectorStore = defineStore('inspector', {
     },
     showCancelOrderBtn: (state) => (orderTagId) => {
       return state.terminal.restore?.includes(orderTagId);
+    },
+    getPosTableIdByName: (state) => (name) => {
+      return state.posTables.find(table => table.name === name)?.id || null;
     }
   },
 
@@ -83,6 +87,9 @@ export const useInspectorStore = defineStore('inspector', {
         this.tables = res.data;
       }).catch(err => {
         fireNotify('error', i18n.t('fetch_error'), err.response.data.message);
+      })
+      await posPanelApi.get('/api/Table/GetAll',{params:{Take:999,Skip:0}}).then(res => {
+        this.posTables = res.data.data
       })
     },
     async fetchTablePlayers(tableId) {

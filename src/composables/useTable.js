@@ -23,12 +23,13 @@ export const useTable = () => {
     posSettings,
     inspectors,
     showCancelOrderBtn,
+    getPosTableIdByName
   } = storeToRefs(inspectorStore);
 
   const playerOrderTab = ref('newOrder')
   const order = ref({
     products: [],
-    tableId: selectedTable.value?.tableId,
+    tableId: getPosTableIdByName.value(selectedTable.value?.tableName),
     tableName: selectedTable.value?.tableName,
     terminalId: terminal.value?.id,
     isGift: false,
@@ -245,7 +246,6 @@ export const useTable = () => {
     $q.loading.show({
       message: i18n.global.t('base.loading'),
     })
-
     await inspectorStore.createOrder({...order.value}).finally(() => $q.loading.hide())
     order.value.products = []
     await getPlayerOrders({...selectedPlayer.value})
@@ -328,7 +328,7 @@ export const useTable = () => {
       if (table) {
         selectedTable.value = table
         await inspectorStore.fetchTablePlayers(table.tableId)
-        order.value.tableId = table?.tableId
+        order.value.tableId = getPosTableIdByName.value(table?.tableName)
         order.value.tableName = table?.tableName
       }
     }
