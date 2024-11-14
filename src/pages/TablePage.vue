@@ -3,6 +3,7 @@ import PlayersCard from "components/common/PlayersCard.vue";
 import {useTable} from "src/composables/useTable";
 
 const {
+  orderByAlphabeticProducts,
   showCancelOrderBtn,
   selectedTable,
   latestUsedTables,
@@ -329,7 +330,7 @@ const {onClickTable} = useInspector();
               <q-card-section class="row q-pt-none">
                 <q-scroll-area style="height: 500px; width: 100%!important;">
                   <div class="row">
-                    <div class="col-4" v-for="(product,index) in products" :key="index"
+                    <div class="col-4" v-for="(product,index) in   orderByAlphabeticProducts" :key="index"
                          @click="onClickProduct(product)">
                       <div v-ripple
                            class="relative-position text-capitalize container flex justify-center text-center content-center text-bold cursor-pointer q-ma-sm  productBtn"

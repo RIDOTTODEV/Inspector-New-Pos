@@ -1,6 +1,6 @@
 import {useInspectorStore} from "stores/inspector-store";
 import {storeToRefs} from "pinia";
-import {defineAsyncComponent, onMounted, ref, watch} from "vue";
+import {computed, defineAsyncComponent, onMounted, ref, watch} from "vue";
 import {useQuasar, date, LocalStorage} from "quasar";
 import {useRoute, useRouter} from "vue-router";
 import {i18n} from "boot/i18n";
@@ -358,6 +358,9 @@ export const useTable = () => {
     order.value.orderedByFullName = getSelectedInspector.value?.name || ''
   })
 
+  const orderByAlphabeticProducts = computed(() => {
+    return products.value.sort((a, b) => a.productName.localeCompare(b.productName))
+  })
   return {
     $q,
     inspectorStore,
@@ -382,6 +385,7 @@ export const useTable = () => {
     inspectors,
     showInspectorSelectError,
     showCancelOrderBtn,
+    orderByAlphabeticProducts,
     onClickCategory,
     onClickBack,
     onClickFavorite,
